@@ -1,0 +1,66 @@
+<nav class="navbar navbar-dark navbar-expand-lg container">
+    <div class="container-fluid">
+        <a class="navbar-brand text-bg-dark" th:href="${'/'}">CRM System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active text-bg-dark" aria-current="page" th:href="${'/'}">Все заявки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-bg-dark" aria-current="page" th:href="${'/newOrders'}">Новые заявки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-bg-dark" aria-current="page" th:href="${'/oldOrders'}">Обработанные заявки</a>
+                </li>
+                <li class="nav-item">
+                    <a style="cursor: pointer" class="nav-link text-bg-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">+ Добавить заявку</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content text-bg-dark">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Добавить заявку</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="${'/addNewOrder'}" method="post">
+                <div class="modal-body">
+                        <div class="form-group">
+                            <p><label>ФИО</label></p>
+                            <input required name="userName" class="form-control text-bg-dark">
+                        </div>
+                    <br>
+                        <div class="form-group">
+                            <p><label>Курс</label></p>
+                            <select required name="courseName" class="form-control text-bg-dark">
+                                <option>Java</option>
+                                <option>Web</option>
+                                <option>Python</option>
+                            </select>
+                        </div>
+                    <br>
+                        <div class="form-group">
+                            <p><label>Телефон</label></p>
+                            <input required name="phone" type="tel" class="form-control text-bg-dark">
+                        </div>
+                    <br>
+                        <div class="form-group">
+                            <p><label>Комментарии</label></p>
+                            <textarea required type="textarea" name="commentary" class="form-control text-bg-dark"></textarea>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

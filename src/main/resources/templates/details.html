@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/main.html">
+<div layout:fragment="content" class="d-flex justify-content-center container">
+<!--    <form action="/changeApp" method="post" class="col-6">-->
+    <div class="col-6">
+
+        <p th:if="${!order.isHandled()}" style="color: red">***Новая необработанная заявка***</p>
+        <p th:if="${order.isHandled()}" style="color: green">Обработанная заявка</p>
+
+        <input hidden >
+
+        <label style="color: white" class="form-label">Имя</label>
+        <input class="form-control" type="text" th:value="${order.getUserName()}">
+        <label style="color: white" class="form-label">Курс</label>
+        <input class="form-control" type="text" th:value="${order.getCourseName()}">
+        <label style="color: white" class="form-label">Телефон</label>
+        <input class="form-control" type="text" th:value="${order.getPhone()}">
+        <label style="color: white" class="form-label">Комментарий</label>
+        <textarea class="form-control"  th:text="${order.getCommentary()}"></textarea>
+        <br>
+
+        <a th:if="${!order.isHandled()}" th:href="${'/details/proc/' + order.getId()}" class="btn btn-primary">Обработать заявку</a>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            Удалить заявку
+        </button>
+<!--    </form>-->
+    </div>
+</div>
+</html>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ахтунг!!!</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены?
+            </div>
+            <form th:action="${'/delete'}" method="post">
+                <div class="modal-footer">
+                    <input type="hidden" th:value="${order.getId()}" name="id">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Удалить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
