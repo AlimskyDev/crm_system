@@ -1,20 +1,66 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/main.html">
-<div layout:fragment="content" class="container">
-    <div class="d-flex flex-wrap ">
+    <div layout:fragment="content" class="container">
+        <div class="d-flex flex-wrap ">
+            <div th:each="order : ${orderModels}" class="card m-1" style="width: 25rem;">
+                <div class="card-body">
+                    <p th:if="${!order.isHandled()}" style="color: red" >*Новая</p>
 
-        <div th:each="order : ${orderModels}" class="card m-1" style="width: 25rem;">
-            <div class="card-body">
-                <p th:if="${!order.isHandled()}" style="color: red" >*Новая</p>
+                    <h5 class="card-title" th:text="${order.getUserName()}"></h5>
+                    <p class="card-text" th:text="${order.getCommentary()}"></p>
+                    <p style="background-color: #0dcaf0; padding: 2px" class="card-text"
+                       th:text="${order.getCourseModel().getName()} + '/' + 'price-' +
+                                ${order.getCourseModel().getPrice()}">
+                    </p>
 
-                <h5 class="card-title" th:text="${order.getUserName()}"></h5>
-                <p class="card-text" th:text="${order.getCommentary()}"></p>
-                <p class="card-text" th:text="${order.getCourseName()}"></p>
-                <p class="card-text" th:text="${order.getPhone()}"></p>
-                <a th:href="${'/details/'+order.getId()}" class="btn btn-primary">Подробнее</a>
+                    <p class="card-text" th:text="${order.getPhone()}"></p>
+                    <a th:href="${'/details/'+order.getId()}" class="btn btn-primary">Подробнее</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </html>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content text-bg-dark">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Добавить заявку</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="${'/addNewOrder'}" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <p><label>ФИО</label></p>
+                        <input required name="userName" class="form-control text-bg-dark">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <p><label>Курс</label></p>
+                        <select name="courseModel.id" class="form-select text-bg-dark">
+                            <option th:each="course : ${courseModels}"
+                                    th:text="${course.getName()} + '/' + 'price ' + ${course.getPrice()}"
+                                    th:value="${course.getId()}">
+                            </option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <p><label>Телефон</label></p>
+                        <input required name="phone" type="tel" class="form-control text-bg-dark">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <p><label>Комментарии</label></p>
+                        <textarea required type="textarea" name="commentary" class="form-control text-bg-dark"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
